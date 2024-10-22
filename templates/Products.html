@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Products</title>
+    <style>
+        /* Basic styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: #333;
+            text-decoration: none;
+            font-size: 18px;
+        }
+       
+        h2 {
+            text-align: center;
+        }
+        .form-container, .product-list {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f8f8;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CRM Products</h1>
+    </header>
+    
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="{%url 'Products'%}">Manage Products</a></li>
+                <li><a href="{%url 'Customers'%}">Manage Customers</a></li>
+                <li><a href="{%url 'Orders'%}">Create Orders</a></li>
+                <li><a href="{%url 'Reports'%}">Analytics & Reports</a></li>
+            </ul>
+        </nav>
+</div>
+
+
+<h2>Product Management</h2>
+
+<div class="form-container">
+    <h3>Add Product</h3>
+    <form id="productForm">
+        <input type="text" id="productName" placeholder="Product Name" required>
+        <input type="number" id="productPrice" placeholder="Price" required>
+        <input type="number" id="productQuantity" placeholder="Quantity" required>
+        <button type="submit">Add Product</button>
+    </form>
+</div>
+
+<div class="product-list">
+    <h3>Product List</h3>
+    <table id="productTable">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Product rows will be inserted here dynamically -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.getElementById('productForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('productName').value;
+        const price = parseFloat(document.getElementById('productPrice').value);
+        const quantity = parseInt(document.getElementById('productQuantity').value);
+
+        let products = JSON.parse(localStorage.getItem('products')) || [];
+
+        products.push({ name, price, quantity });
+        localStorage.setItem('products', JSON.stringify(products));
+
+        renderProducts();
+        e.target.reset();
+    });
+
+    function renderProducts() {
+        const products = JSON.parse(localStorage.getItem('products')) || [];
+        const productTableBody = document.querySelector('#productTable tbody');
+        productTableBody.innerHTML = '';
+
+        products.forEach(product => {
+            const totalValue = product.price * product.quantity;
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${product.name}</td>
+                <td>$${product.price.toFixed(2)}</td>
+                <td>${product.quantity}</td>
+                <td>$${totalValue.toFixed(2)}</td>
+            `;
+            productTableBody.appendChild(row);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', renderProducts);
+</script>
+
+</body>
+</html>
