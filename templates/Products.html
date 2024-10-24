@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
 {% load static %}
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Products</title>
+    <title>Таблица продуктов</title>
     <style>
-        /* Basic styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -37,50 +36,44 @@
             text-decoration: none;
             font-size: 18px;
         }
-       
         h2 {
             text-align: center;
         }
-        .form-container, .product-list {
-            max-width: 600px;
-            margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        button {
-            background-color: #28a745;
-            color: white;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-        }
-        button:hover {
-            background-color: #218838;
-        }
         table {
-            width: 100%;
+            margin: auto;
+            width: 95%;
             border-collapse: collapse;
-            margin-top: 20px;
         }
         table, th, td {
-            border: 1px solid #ddd;
+            border: 1px solid black;
         }
         th, td {
-            padding: 10px;
+            padding: 8px;
             text-align: left;
         }
         th {
-            background-color: #f8f8f8;
+            background-color: #f2f2f2;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 6px;
+            box-sizing: border-box;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .button-container button:hover {
+            background-color: #218838;
         }
     </style>
 </head>
@@ -88,7 +81,7 @@
     <header>
         <h1>CRM Products</h1>
     </header>
-    
+
     <div class="container">
         <nav>
             <ul>
@@ -98,75 +91,35 @@
                 <li><a href="{%url 'Reports'%}">Analytics & Reports</a></li>
             </ul>
         </nav>
-</div>
+    </div>
 
+    <h2>Продукты</h2>
 
-<h2>Product Management</h2>
-
-<div class="form-container">
-    <h3>Add Product</h3>
-    <form id="productForm">
-        <input type="text" id="productName" placeholder="Product Name" required>
-        <input type="number" id="productPrice" placeholder="Price" required>
-        <input type="number" id="productQuantity" placeholder="Quantity" required>
-        <button type="submit">Add Product</button>
-    </form>
-</div>
-
-<div class="product-list">
-    <h3>Product List</h3>
-    <table id="productTable">
+    <table>
         <thead>
             <tr>
-                <th>Product Name</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total Value</th>
+                <th>Имя продукта</th>
+                <th>Код продукта (12 знаков)</th>
+                <th>Цвет продукта</th>
+                <th>Сумма приобретения продукта</th>
+                <th>Сумма за единицу товара</th>
+                <th>Количество проданных товаров</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Product rows will be inserted here dynamically -->
+            <tr>
+                <td><input type="text" placeholder="Введите имя продукта"></td>
+                <td><input type="text" maxlength="12" placeholder="Введите код продукта"></td>
+                <td><input type="text" placeholder="Введите цвет продукта"></td>
+                <td><input type="number" placeholder="Введите сумму приобретения"></td>
+                <td><input type="number" placeholder="Введите сумму за единицу"></td>
+                <td><input type="number" placeholder="Введите количество проданных товаров"></td>
+            </tr>
         </tbody>
     </table>
-</div>
 
-<script>
-    document.getElementById('productForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const name = document.getElementById('productName').value;
-        const price = parseFloat(document.getElementById('productPrice').value);
-        const quantity = parseInt(document.getElementById('productQuantity').value);
-
-        let products = JSON.parse(localStorage.getItem('products')) || [];
-
-        products.push({ name, price, quantity });
-        localStorage.setItem('products', JSON.stringify(products));
-
-        renderProducts();
-        e.target.reset();
-    });
-
-    function renderProducts() {
-        const products = JSON.parse(localStorage.getItem('products')) || [];
-        const productTableBody = document.querySelector('#productTable tbody');
-        productTableBody.innerHTML = '';
-
-        products.forEach(product => {
-            const totalValue = product.price * product.quantity;
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${product.name}</td>
-                <td>$${product.price.toFixed(2)}</td>
-                <td>${product.quantity}</td>
-                <td>$${totalValue.toFixed(2)}</td>
-            `;
-            productTableBody.appendChild(row);
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', renderProducts);
-</script>
-
+    <div class="button-container">
+        <button>Отправить данные</button>
+    </div>
 </body>
 </html>

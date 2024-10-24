@@ -2,112 +2,112 @@
 {% load static %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Management</title>
-    <link rel="stylesheet" href="{% static "crmpage.css" %}">
-    <style>
-       
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-top: 30px;
+      color: #333;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    table {
+      margin: 40px auto;
+      width: 80%;
+      border-collapse: collapse;
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 15px 20px;
+      text-align: center;
+      font-size: 1rem;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    td {
+      color: #555;
+    }
+
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Mobile responsiveness */
+    @media screen and (max-width: 768px) {
+      table, th, td {
+        width: 100%;
+        display: block;
+        padding: 10px;
+        font-size: 0.9rem;
+      }
+      th, td {
+        text-align: left;
+        padding-left: 30px;
+      }
+      th {
+        background-color: #3e8e41;
+      }
+    }
+  </style>
 </head>
 <body>
-
-    <h1>Product Management and Monthly Benefits</h1>
-
-    <div class="container">
-        <!-- Add Product Form -->
-        <h2>Add New Product</h2>
-        <form id="addProductForm">
-            <div class="form-group">
-                <label for="productName">Product Name</label>
-                <input type="text" id="productName" placeholder="Enter product name" required>
-            </div>
-            <div class="form-group">
-                <label for="productPrice">Price per Unit</label>
-                <input type="number" id="productPrice" placeholder="Enter price per unit" required>
-            </div>
-            <div class="form-group">
-                <label for="productQuantity">Quantity</label>
-                <input type="number" id="productQuantity" placeholder="Enter quantity in stock" required>
-            </div>
-            <button type="submit">Add Product</button>
-        </form>
-
-        <!-- Product Table -->
-        <h2>Product Inventory</h2>
-        <table id="productTable">
-            <thead>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Product Rows will be added here dynamically -->
-            </tbody>
-        </table>
-
-        <!-- Monthly Benefits Section -->
-        <div class="total-container">
-            <p>Monthly Benefits: <span id="totalBenefits" class="total-benefits">$0</span></p>
-        </div>
-    </div>
-
-    <script>
-        // Variables to hold products and total monthly benefits
-        let products = [];
-        let totalBenefits = 0;
-
-        // Function to add a new product
-        document.getElementById('addProductForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            // Get form data
-            const name = document.getElementById('productName').value;
-            const price = parseFloat(document.getElementById('productPrice').value);
-            const quantity = parseInt(document.getElementById('productQuantity').value);
-
-            // Calculate total value of the product
-            const totalValue = price * quantity;
-
-            // Add product to the list
-            products.push({
-                name: name,
-                price: price,
-                quantity: quantity,
-                totalValue: totalValue
-            });
-
-            // Update the product table
-            updateProductTable();
-
-            // Update monthly benefits (just for demo, assuming all products are sold within a month)
-            totalBenefits += totalValue;
-            document.getElementById('totalBenefits').textContent = `$${totalBenefits.toFixed(2)}`;
-
-            // Clear the form
-            document.getElementById('addProductForm').reset();
-        });
-
-        // Function to update the product table
-        function updateProductTable() {
-            const productTableBody = document.querySelector('#productTable tbody');
-            productTableBody.innerHTML = '';  // Clear the table body
-
-            products.forEach(product => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${product.name}</td>
-                    <td>$${product.price.toFixed(2)}</td>
-                    <td>${product.quantity}</td>
-                    <td>$${product.totalValue.toFixed(2)}</td>
-                `;
-                productTableBody.appendChild(row);
-            });
-        }
-    </script>
-
+  <h2>List of Users</h2>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Lastname</th>
+          <th>Age</th>
+          <th>Email</th>
+          <th>Phone Number</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if users.count > 0 %}
+          {% for user in users %}
+            <tr>
+              <td>{{ user.id }}</td>
+              <td>{{ user.first_name }}</td>
+              <td>{{ user.last_name }}</td>
+              <td>{{ user.age }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.phone_number }}</td>
+            </tr>
+          {% endfor %}
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>

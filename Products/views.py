@@ -1,4 +1,6 @@
 from django.views.generic import TemplateView
+from django.shortcuts import render
+from .models import *
 from templates import *
 
 class Registration (TemplateView):
@@ -8,9 +10,12 @@ class Registration (TemplateView):
 class Login (TemplateView):
     template_name = "login.html"
 
-class Crm (TemplateView):
-    template_name = "crmpage.html"
 
+def Homepage (request):
+  users = Person.objects.all()
+  
+  return render(request,"crmpage.html",context={"users":users})
+    
 class Crmmm (TemplateView):
     template_name = "Crmmm.html"
 

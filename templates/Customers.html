@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-{% load static %}
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Customers</title>
+    <title>Добавление клиента</title>
     <style>
-        /* Styles similar to product management */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -37,12 +35,47 @@
             text-decoration: none;
             font-size: 18px;
         }
-        
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="tel"], input[type="email"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .button-container {
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
+    
     <header>
-        <h1>CRM Customer</h1>
+        <h1>CRM Customers</h1>
     </header>
     
     <div class="container">
@@ -55,14 +88,31 @@
             </ul>
         </nav>
     </div>
-    <!-- Similar form for adding customers and displaying them -->
 
+    <div class="container">
+        <h2>Добавление нового клиента</h2>
 
+        <form>
+            <label for="name">Имя клиента</label>
+            <input type="text" id="name" name="name" placeholder="Введите имя клиента">
 
+            <label for="surname">Фамилия клиента</label>
+            <input type="text" id="surname" name="surname" placeholder="Введите фамилию клиента">
 
+            <label for="phone">Телефон</label>
+            <input type="tel" id="phone" name="phone" placeholder="Введите телефон клиента">
 
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Введите email клиента">
 
+            <label for="address">Адрес</label>
+            <input type="text" id="address" name="address" placeholder="Введите адрес клиента">
 
+            <div class="button-container">
+                <button type="submit">Добавить клиента</button>
+            </div>
+        </form>
+    </div>
 
 </body>
 </html>
